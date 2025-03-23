@@ -1,8 +1,10 @@
 "use client"
-
 import { SearchBar } from "@/components/search-bar"
 import { VideoList } from "@/components/video-list"
-import { useState, useEffect } from "react"
+import { Navbar } from "@/components/navbar"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { ClipboardList, FileText } from "lucide-react"
 
 // Datos de ejemplo para los videos educativos
 const videosData = [
@@ -69,55 +71,63 @@ const videosData = [
 ]
 
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [videos, setVideos] = useState(videosData)
-
-  const handleSearch = (query: string) => {
-    setSearchQuery(query)
-
-    if (!query.trim()) {
-      setVideos(videosData)
-      return
-    }
-
-    const filteredVideos = videosData.filter(
-      (video) =>
-        video.title.toLowerCase().includes(query.toLowerCase()) ||
-        video.description.toLowerCase().includes(query.toLowerCase()),
-    )
-
-    setVideos(filteredVideos)
-  }
-
   return (
     <main className="min-h-screen bg-gray-50">
+      <Navbar />
+
       <div className="container mx-auto px-4 py-8">
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-center mb-2">Plataforma Educativa</h1>
           <p className="text-gray-600 text-center mb-6">Descubre y aprende con nuestros contenidos educativos</p>
-          <SearchBar onSearch={handleSearch} />
+          <SearchBar onSearch={() => {}} />
         </header>
 
-        <section>
-          <h2 className="text-xl font-semibold mb-4">
-            {searchQuery ? `Resultados para "${searchQuery}"` : "Videos Disponibles"}
-          </h2>
-          <VideoList videos={videos} />
-
-          {videos.length === 0 && (
-            <div className="text-center py-10">
-              <p className="text-gray-500">No se encontraron videos que coincidan con tu búsqueda.</p>
-              <button
-                onClick={() => handleSearch("")}
-                className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
-              >
-                Ver todos los videos
-              </button>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <Link href="/examenes" className="block">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold">Exámenes</h2>
+                <ClipboardList className="h-8 w-8" />
+              </div>
+              <p className="text-blue-100 mb-4">Pon a prueba tus conocimientos con nuestros exámenes interactivos.</p>
+              <Button variant="secondary" className="w-full">
+                Ver exámenes
+              </Button>
             </div>
-          )}
+          </Link>
+
+          <Link href="/admin" className="block">
+            <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold">Documentos</h2>
+                <FileText className="h-8 w-8" />
+              </div>
+              <p className="text-purple-100 mb-4">Accede a nuestra biblioteca de documentos y materiales de estudio.</p>
+              <Button variant="secondary" className="w-full">
+                Ver documentos
+              </Button>
+            </div>
+          </Link>
+
+          <Link href="/admin" className="block">
+            <div className="bg-gradient-to-r from-green-500 to-green-700 text-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold">Administración</h2>
+                <FileText className="h-8 w-8" />
+              </div>
+              <p className="text-green-100 mb-4">Gestiona contenidos, crea exámenes y sube documentos.</p>
+              <Button variant="secondary" className="w-full">
+                Panel de admin
+              </Button>
+            </div>
+          </Link>
+        </div>
+
+        <section>
+          <h2 className="text-xl font-semibold mb-4">Videos Disponibles</h2>
+          <VideoList videos={videosData} />
         </section>
       </div>
     </main>
   )
 }
-
