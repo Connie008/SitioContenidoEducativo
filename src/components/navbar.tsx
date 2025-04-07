@@ -12,21 +12,6 @@ export function Navbar() {
             Plataforma Educativa
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/" className="flex items-center gap-1 text-sm font-medium hover:text-primary">
-              <Video className="h-4 w-4" />
-              Videos
-            </Link>
-            <Link href="/examenes" className="flex items-center gap-1 text-sm font-medium hover:text-primary">
-              <ClipboardList className="h-4 w-4" />
-              Exámenes
-            </Link>
-            <Link href="/admin" className="flex items-center gap-1 text-sm font-medium hover:text-primary">
-              <BookOpen className="h-4 w-4" />
-              Documentos
-            </Link>
-          </nav>
-
           <div className="flex items-center gap-2">
             <Link href="/admin">
               <Button variant="outline" size="sm">

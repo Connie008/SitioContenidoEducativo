@@ -5,6 +5,7 @@ import { Navbar } from "@/components/navbar"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ClipboardList, FileText } from "lucide-react"
+import { useState } from "react"
 
 // Datos de ejemplo para los videos educativos
 const videosData = [
@@ -71,6 +72,24 @@ const videosData = [
 ]
 
 export default function Home() {
+  const [videos, setVideos] = useState(videosData)
+
+  const handleSearch = (query: string) => {
+
+    if (!query.trim()) {
+      setVideos(videosData)
+      return
+    }
+
+    const filteredVideos = videosData.filter(
+      (video) =>
+        video.title.toLowerCase().includes(query.toLowerCase()) ||
+        video.description.toLowerCase().includes(query.toLowerCase()),
+    )
+
+    setVideos(filteredVideos)
+  }
+
   return (
     <main className="min-h-screen bg-gray-50">
       <Navbar />
@@ -79,7 +98,7 @@ export default function Home() {
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-center mb-2">Plataforma Educativa</h1>
           <p className="text-gray-600 text-center mb-6">Descubre y aprende con nuestros contenidos educativos</p>
-          <SearchBar onSearch={() => {}} />
+          <SearchBar onSearch={handleSearch} />
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -125,7 +144,7 @@ export default function Home() {
 
         <section>
           <h2 className="text-xl font-semibold mb-4">Videos Disponibles</h2>
-          <VideoList videos={videosData} />
+          <VideoList videos={videos} />
         </section>
       </div>
     </main>
